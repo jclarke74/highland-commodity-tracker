@@ -4,10 +4,13 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { useWatchlist } from "@/hooks/use-watchlist";
+import { Settings2 } from "lucide-react";
 import { KpiCard } from "@/components/dashboard/kpi-card";
 import { InsightSnippet } from "@/components/dashboard/insight-snippet";
 import { TrendOverviewChart } from "@/components/dashboard/trend-overview-chart";
 import { NewsStrip } from "@/components/dashboard/news-strip";
+import { WatchlistModal } from "@/components/layout/watchlist-modal";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { InsightCard } from "@/types";
 
@@ -36,6 +39,7 @@ export default function DashboardPage() {
   const [commoditiesLoading, setCommoditiesLoading] = useState(true);
   const [insightText, setInsightText] = useState<string | null>(null);
   const [insightLoading, setInsightLoading] = useState(true);
+  const [showWatchlistModal, setShowWatchlistModal] = useState(false);
 
   // Fetch all commodities
   useEffect(() => {
@@ -122,10 +126,26 @@ export default function DashboardPage() {
   return (
     <div className="p-6 md:p-8 space-y-6 max-w-[1200px]">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-sm text-muted-foreground mt-1">{today}</p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+          <p className="text-sm text-muted-foreground mt-1">{today}</p>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setShowWatchlistModal(true)}
+        >
+          <Settings2 className="h-3.5 w-3.5" data-icon="inline-start" />
+          Customize
+        </Button>
       </div>
+
+      {/* Watchlist management modal */}
+      <WatchlistModal
+        open={showWatchlistModal}
+        onOpenChange={setShowWatchlistModal}
+      />
 
       {/* KPI Cards Row + Insight Snippet */}
       <div className="flex flex-wrap gap-4">

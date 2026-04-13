@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import { useWatchlist } from "@/hooks/use-watchlist";
+import { WatchlistModal } from "@/components/layout/watchlist-modal";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
@@ -31,6 +32,7 @@ export function SidebarWatchlist() {
   const { watchlist, isLoading: watchlistLoading } = useWatchlist();
   const [commodities, setCommodities] = useState<CommodityEntry[]>([]);
   const [isFetching, setIsFetching] = useState(true);
+  const [showWatchlistModal, setShowWatchlistModal] = useState(false);
 
   /* Fetch all commodity data to map IDs -> names + prices */
   useEffect(() => {
@@ -72,9 +74,7 @@ export function SidebarWatchlist() {
         </span>
         <button
           type="button"
-          onClick={() => {
-            /* placeholder -- will open watchlist modal in a later task */
-          }}
+          onClick={() => setShowWatchlistModal(true)}
           className="flex h-5 w-5 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
           aria-label="Edit watchlist"
         >
@@ -139,6 +139,12 @@ export function SidebarWatchlist() {
           })
         )}
       </div>
+
+      {/* Watchlist management modal */}
+      <WatchlistModal
+        open={showWatchlistModal}
+        onOpenChange={setShowWatchlistModal}
+      />
     </div>
   );
 }
