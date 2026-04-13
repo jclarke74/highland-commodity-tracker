@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm";
 
 export const maxDuration = 60;
 
-export async function POST(request: NextRequest) {
+async function handler(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -70,3 +70,7 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+// Vercel Cron sends GET requests; also support POST for manual triggers
+export const GET = handler;
+export const POST = handler;
