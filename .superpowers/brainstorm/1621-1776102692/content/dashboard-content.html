@@ -1,0 +1,206 @@
+<h2>Dashboard Content Layout</h2>
+<p class="subtitle">What should users see in the main content area when they land on the Dashboard?</p>
+
+<div class="cards">
+  <!-- Option A: KPI Cards + Chart Focus -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background: #0a0a0f; border-radius: 8px; overflow: hidden; height: 340px; font-family: system-ui, sans-serif; padding: 16px;">
+        <!-- Header row -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div style="color: #e2e8f0; font-size: 14px; font-weight: 600;">Dashboard</div>
+          <div style="display: flex; gap: 6px;">
+            <div style="padding: 4px 10px; background: #3b82f6; border-radius: 4px; color: white; font-size: 9px;">1W</div>
+            <div style="padding: 4px 10px; background: #1e1e2e; border-radius: 4px; color: #64748b; font-size: 9px;">1M</div>
+            <div style="padding: 4px 10px; background: #1e1e2e; border-radius: 4px; color: #64748b; font-size: 9px;">3M</div>
+            <div style="padding: 4px 10px; background: #1e1e2e; border-radius: 4px; color: #64748b; font-size: 9px;">1Y</div>
+          </div>
+        </div>
+        <!-- KPI Cards Row -->
+        <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+          <div style="flex: 1; background: #111118; border-radius: 8px; padding: 12px; border: 1px solid #1e1e2e;">
+            <div style="color: #64748b; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Lumber</div>
+            <div style="color: #e2e8f0; font-size: 16px; font-weight: 700; margin: 4px 0;">$485.50</div>
+            <div style="color: #22c55e; font-size: 9px; font-weight: 500;">▲ 2.3% · +$10.90</div>
+          </div>
+          <div style="flex: 1; background: #111118; border-radius: 8px; padding: 12px; border: 1px solid #1e1e2e;">
+            <div style="color: #64748b; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Steel HRC</div>
+            <div style="color: #e2e8f0; font-size: 16px; font-weight: 700; margin: 4px 0;">$1,842</div>
+            <div style="color: #ef4444; font-size: 9px; font-weight: 500;">▼ 1.1% · -$20.50</div>
+          </div>
+          <div style="flex: 1; background: #111118; border-radius: 8px; padding: 12px; border: 1px solid #1e1e2e;">
+            <div style="color: #64748b; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Copper</div>
+            <div style="color: #e2e8f0; font-size: 16px; font-weight: 700; margin: 4px 0;">$4.12</div>
+            <div style="color: #22c55e; font-size: 9px; font-weight: 500;">▲ 0.8% · +$0.03</div>
+          </div>
+          <div style="flex: 1; background: #111118; border-radius: 8px; padding: 12px; border: 1px solid #1e1e2e;">
+            <div style="color: #64748b; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Diesel</div>
+            <div style="color: #e2e8f0; font-size: 16px; font-weight: 700; margin: 4px 0;">$3.89</div>
+            <div style="color: #ef4444; font-size: 9px; font-weight: 500;">▼ 0.4% · -$0.02</div>
+          </div>
+        </div>
+        <!-- Large Chart -->
+        <div style="background: #111118; border-radius: 8px; height: 140px; border: 1px solid #1e1e2e; padding: 12px; position: relative;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <div style="color: #94a3b8; font-size: 9px;">Watchlist Performance</div>
+            <div style="display: flex; gap: 12px;">
+              <div style="display: flex; align-items: center; gap: 4px;"><div style="width: 8px; height: 2px; background: #3b82f6;"></div><span style="color: #64748b; font-size: 8px;">Lumber</span></div>
+              <div style="display: flex; align-items: center; gap: 4px;"><div style="width: 8px; height: 2px; background: #8b5cf6;"></div><span style="color: #64748b; font-size: 8px;">Steel</span></div>
+              <div style="display: flex; align-items: center; gap: 4px;"><div style="width: 8px; height: 2px; background: #22c55e;"></div><span style="color: #64748b; font-size: 8px;">Copper</span></div>
+            </div>
+          </div>
+          <svg width="100%" height="80" viewBox="0 0 400 80" preserveAspectRatio="none">
+            <polyline points="0,60 50,55 100,45 150,50 200,40 250,35 300,30 350,28 400,25" fill="none" stroke="#3b82f6" stroke-width="2"/>
+            <polyline points="0,50 50,52 100,55 150,48 200,50 250,45 300,42 350,44 400,40" fill="none" stroke="#8b5cf6" stroke-width="2" opacity="0.7"/>
+            <polyline points="0,65 50,60 100,58 150,62 200,55 250,50 300,48 350,45 400,42" fill="none" stroke="#22c55e" stroke-width="2" opacity="0.7"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Price Cards + Chart Focus</h3>
+      <p>Top KPI cards showing watchlist prices at a glance, then a large multi-line trend chart below. Data-first. Quick scan of all your commodities, then dive into the visual trends. Time range selector for the chart.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Intelligence-Forward -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background: #0a0a0f; border-radius: 8px; overflow: hidden; height: 340px; font-family: system-ui, sans-serif; padding: 16px;">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div style="color: #e2e8f0; font-size: 14px; font-weight: 600;">Dashboard</div>
+          <div style="color: #64748b; font-size: 9px;">Last updated: 8:02 AM</div>
+        </div>
+        <!-- Intelligence Banner -->
+        <div style="background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1)); border: 1px solid rgba(59,130,246,0.3); border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+            <div style="font-size: 12px;">💡</div>
+            <div style="color: #3b82f6; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Today's Intelligence</div>
+          </div>
+          <div style="color: #e2e8f0; font-size: 11px; line-height: 1.5;">Lumber futures up 8% this month. Consider locking in framing material pricing for Q3 projects before anticipated summer surge.</div>
+          <div style="color: #64748b; font-size: 9px; margin-top: 6px; cursor: pointer;">View all insights →</div>
+        </div>
+        <!-- Two Column: Prices + News -->
+        <div style="display: flex; gap: 10px;">
+          <!-- Left: Compact price table -->
+          <div style="flex: 1; background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 10px;">
+            <div style="color: #94a3b8; font-size: 9px; margin-bottom: 8px; font-weight: 600;">WATCHLIST</div>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #1e1e2e;">
+              <span style="color: #e2e8f0; font-size: 10px;">Lumber</span>
+              <span style="color: #e2e8f0; font-size: 10px;">$485.50</span>
+              <span style="color: #22c55e; font-size: 10px;">+2.3%</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #1e1e2e;">
+              <span style="color: #e2e8f0; font-size: 10px;">Steel HRC</span>
+              <span style="color: #e2e8f0; font-size: 10px;">$1,842</span>
+              <span style="color: #ef4444; font-size: 10px;">-1.1%</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #1e1e2e;">
+              <span style="color: #e2e8f0; font-size: 10px;">Copper</span>
+              <span style="color: #e2e8f0; font-size: 10px;">$4.12</span>
+              <span style="color: #22c55e; font-size: 10px;">+0.8%</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0;">
+              <span style="color: #e2e8f0; font-size: 10px;">Diesel</span>
+              <span style="color: #e2e8f0; font-size: 10px;">$3.89</span>
+              <span style="color: #ef4444; font-size: 10px;">-0.4%</span>
+            </div>
+          </div>
+          <!-- Right: News feed -->
+          <div style="flex: 1; background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 10px;">
+            <div style="color: #94a3b8; font-size: 9px; margin-bottom: 8px; font-weight: 600;">LATEST NEWS</div>
+            <div style="padding: 6px 0; border-bottom: 1px solid #1e1e2e;">
+              <div style="color: #e2e8f0; font-size: 10px; line-height: 1.3;">Housing starts surge in March data</div>
+              <div style="color: #64748b; font-size: 8px; margin-top: 2px;">Construction Dive · 2h ago</div>
+            </div>
+            <div style="padding: 6px 0; border-bottom: 1px solid #1e1e2e;">
+              <div style="color: #e2e8f0; font-size: 10px; line-height: 1.3;">Steel tariff review expected in Q2</div>
+              <div style="color: #64748b; font-size: 8px; margin-top: 2px;">Reuters · 4h ago</div>
+            </div>
+            <div style="padding: 6px 0;">
+              <div style="color: #e2e8f0; font-size: 10px; line-height: 1.3;">Copper demand rises on infrastructure bill</div>
+              <div style="color: #64748b; font-size: 8px; margin-top: 2px;">GNews · 6h ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Intelligence-Forward Dashboard</h3>
+      <p>Leads with the AI insight banner — the first thing users see is today's actionable recommendation. Below that, a compact two-column layout: watchlist prices on the left, latest news headlines on the right. The "brain" of the app front and center.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Combined -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background: #0a0a0f; border-radius: 8px; overflow: hidden; height: 340px; font-family: system-ui, sans-serif; padding: 16px;">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div style="color: #e2e8f0; font-size: 14px; font-weight: 600;">Dashboard</div>
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <div style="color: #64748b; font-size: 9px;">Apr 13, 2026</div>
+            <div style="padding: 4px 10px; background: #1e1e2e; border-radius: 4px; color: #64748b; font-size: 9px;">⚙ Customize</div>
+          </div>
+        </div>
+        <!-- Top Row: KPI Cards + Intelligence -->
+        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+          <div style="flex: 1; background: #111118; border-radius: 6px; padding: 10px; border: 1px solid #1e1e2e;">
+            <div style="color: #64748b; font-size: 8px; text-transform: uppercase;">Lumber</div>
+            <div style="color: #e2e8f0; font-size: 14px; font-weight: 700; margin: 2px 0;">$485.50</div>
+            <div style="color: #22c55e; font-size: 9px;">▲ 2.3%</div>
+          </div>
+          <div style="flex: 1; background: #111118; border-radius: 6px; padding: 10px; border: 1px solid #1e1e2e;">
+            <div style="color: #64748b; font-size: 8px; text-transform: uppercase;">Steel HRC</div>
+            <div style="color: #e2e8f0; font-size: 14px; font-weight: 700; margin: 2px 0;">$1,842</div>
+            <div style="color: #ef4444; font-size: 9px;">▼ 1.1%</div>
+          </div>
+          <div style="flex: 1.2; background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1)); border: 1px solid rgba(59,130,246,0.25); border-radius: 6px; padding: 10px;">
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 3px;">
+              <span style="font-size: 10px;">💡</span>
+              <span style="color: #3b82f6; font-size: 8px; font-weight: 600;">INSIGHT</span>
+            </div>
+            <div style="color: #e2e8f0; font-size: 9px; line-height: 1.4;">Lock in lumber pricing — 8% monthly rise signals continued surge.</div>
+          </div>
+        </div>
+        <!-- Middle Row: Chart -->
+        <div style="background: #111118; border-radius: 6px; height: 80px; border: 1px solid #1e1e2e; padding: 8px; margin-bottom: 10px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #94a3b8; font-size: 8px;">Trend Overview</span>
+            <div style="display: flex; gap: 4px;">
+              <div style="padding: 2px 6px; background: #3b82f6; border-radius: 3px; color: white; font-size: 7px;">1M</div>
+              <div style="padding: 2px 6px; background: #1e1e2e; border-radius: 3px; color: #64748b; font-size: 7px;">3M</div>
+            </div>
+          </div>
+          <svg width="100%" height="45" viewBox="0 0 400 45" preserveAspectRatio="none">
+            <polyline points="0,35 60,30 120,25 180,30 240,22 300,18 360,15 400,14" fill="none" stroke="#3b82f6" stroke-width="2"/>
+            <polyline points="0,30 60,32 120,35 180,28 240,30 300,26 360,24 400,22" fill="none" stroke="#8b5cf6" stroke-width="1.5" opacity="0.6"/>
+          </svg>
+        </div>
+        <!-- Bottom Row: News -->
+        <div style="display: flex; gap: 8px;">
+          <div style="flex: 1; background: #111118; border-radius: 6px; padding: 8px; border: 1px solid #1e1e2e;">
+            <div style="color: #64748b; font-size: 8px; margin-bottom: 4px;">COMMODITY NEWS</div>
+            <div style="color: #e2e8f0; font-size: 9px; line-height: 1.3;">Steel tariff review expected...</div>
+            <div style="color: #64748b; font-size: 7px; margin-top: 2px;">Reuters · 4h</div>
+          </div>
+          <div style="flex: 1; background: #111118; border-radius: 6px; padding: 8px; border: 1px solid #1e1e2e;">
+            <div style="color: #64748b; font-size: 8px; margin-bottom: 4px;">CONSTRUCTION NEWS</div>
+            <div style="color: #e2e8f0; font-size: 9px; line-height: 1.3;">Housing starts surge in March...</div>
+            <div style="color: #64748b; font-size: 7px; margin-top: 2px;">Constr. Dive · 2h</div>
+          </div>
+          <div style="flex: 1; background: #111118; border-radius: 6px; padding: 8px; border: 1px solid #1e1e2e;">
+            <div style="color: #64748b; font-size: 8px; margin-bottom: 4px;">MARKET ALERT</div>
+            <div style="color: #e2e8f0; font-size: 9px; line-height: 1.3;">Copper demand rises on infra...</div>
+            <div style="color: #64748b; font-size: 7px; margin-top: 2px;">GNews · 6h</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Everything-at-a-Glance</h3>
+      <p>Dense, information-rich layout: KPI cards + inline insight card at top, trend chart in the middle, three-column news strip at the bottom. Users see prices, intelligence, trends, and news all without scrolling. A true command center view.</p>
+    </div>
+  </div>
+</div>
