@@ -4,6 +4,7 @@ import "./globals.css";
 import { WatchlistProvider } from "@/hooks/use-watchlist";
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNav } from "@/components/layout/mobile-nav";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -32,6 +33,8 @@ export default function RootLayout({
 
           {/* Main content area -- offset for sidebar on desktop */}
           <main className="min-h-screen md:ml-[220px]">{children}</main>
+
+          <Toaster />
         </WatchlistProvider>
       </body>
     </html>
