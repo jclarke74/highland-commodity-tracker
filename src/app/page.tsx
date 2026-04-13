@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 import { useWatchlist } from "@/hooks/use-watchlist";
-import { Settings2 } from "lucide-react";
+import { Settings2, AlertCircle, RefreshCw } from "lucide-react";
 import { KpiCard } from "@/components/dashboard/kpi-card";
 import { InsightSnippet } from "@/components/dashboard/insight-snippet";
 import { TrendOverviewChart } from "@/components/dashboard/trend-overview-chart";
@@ -37,15 +37,20 @@ export default function DashboardPage() {
 
   const [commodities, setCommodities] = useState<CommodityEntry[]>([]);
   const [commoditiesLoading, setCommoditiesLoading] = useState(true);
+  const [commoditiesError, setCommoditiesError] = useState<string | null>(null);
   const [insightText, setInsightText] = useState<string | null>(null);
   const [insightLoading, setInsightLoading] = useState(true);
   const [showWatchlistModal, setShowWatchlistModal] = useState(false);
 
   // Fetch all commodities
+  const [commoditiesRetry, setCommoditiesRetry] = useState(0);
+
   useEffect(() => {
     let cancelled = false;
 
     async function fetchCommodities() {
+      setCommoditiesLoading(true);
+      setCommoditiesError(null);
       try {
         const res = await fetch("/api/commodities");
         if (!res.ok) throw new Error("Failed to fetch commodities");
@@ -61,6 +66,7 @@ export default function DashboardPage() {
         if (!cancelled) setCommodities(flat);
       } catch (err) {
         console.error("Dashboard commodities fetch error:", err);
+        if (!cancelled) setCommoditiesError("Failed to load commodity data.");
       } finally {
         if (!cancelled) setCommoditiesLoading(false);
       }
@@ -70,7 +76,7 @@ export default function DashboardPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [commoditiesRetry]);
 
   // Fetch latest insight for watchlist
   useEffect(() => {
@@ -123,6 +129,17 @@ export default function DashboardPage() {
 
   const today = format(new Date(), "EEEE, MMMM d, yyyy");
 
+  // Data freshness: find the most recent price date across all watchlist commodities
+  const latestPriceDate = watchlistCommodities.reduce<string | null>(
+    (latest, c) => {
+      const d = c.latestPrice?.date;
+      if (!d) return latest;
+      if (!latest) return d;
+      return d > latest ? d : latest;
+    },
+    null
+  );
+
   return (
     <div className="p-6 md:p-8 space-y-6 max-w-[1200px]">
       {/* Header */}
@@ -130,6 +147,14 @@ export default function DashboardPage() {
         <div>
           <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
           <p className="text-sm text-muted-foreground mt-1">{today}</p>
+          {latestPriceDate && (
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Last updated:{" "}
+              {formatDistanceToNow(new Date(latestPriceDate), {
+                addSuffix: true,
+              })}
+            </p>
+          )}
         </div>
         <Button
           variant="outline"
@@ -149,7 +174,22 @@ export default function DashboardPage() {
 
       {/* KPI Cards Row + Insight Snippet */}
       <div className="flex flex-wrap gap-4">
-        {commoditiesLoading || watchlistLoading ? (
+        {commoditiesError ? (
+          <div className="bg-card border border-destructive/30 rounded-lg p-4 flex-1 flex items-center gap-3">
+            <AlertCircle className="h-5 w-5 text-destructive shrink-0" />
+            <p className="text-sm text-muted-foreground flex-1">
+              {commoditiesError}
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCommoditiesRetry((r) => r + 1)}
+            >
+              <RefreshCw className="h-3.5 w-3.5" data-icon="inline-start" />
+              Retry
+            </Button>
+          </div>
+        ) : commoditiesLoading || watchlistLoading ? (
           <>
             {[0, 1, 2, 3].map((i) => (
               <Skeleton key={i} className="h-[110px] w-[180px] rounded-lg" />

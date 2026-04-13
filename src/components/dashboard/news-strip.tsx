@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { formatDistanceToNow } from "date-fns";
+import { AlertCircle, RefreshCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface NewsArticle {
@@ -63,11 +65,15 @@ function NewsCard({ article }: { article: NewsArticle }) {
 export function NewsStrip() {
   const [articles, setArticles] = useState<NewsArticle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
 
     async function fetchNews() {
+      setIsLoading(true);
+      setError(null);
       try {
         const res = await fetch("/api/news?page=1");
         if (!res.ok) throw new Error("Failed to fetch news");
@@ -75,6 +81,7 @@ export function NewsStrip() {
         if (!cancelled) setArticles(json.articles ?? []);
       } catch (err) {
         console.error("News strip fetch error:", err);
+        if (!cancelled) setError("Failed to load news.");
       } finally {
         if (!cancelled) setIsLoading(false);
       }
@@ -84,7 +91,24 @@ export function NewsStrip() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [retryCount]);
+
+  if (error) {
+    return (
+      <div className="bg-card border border-destructive/30 rounded-lg p-6 flex items-center gap-3">
+        <AlertCircle className="h-5 w-5 text-destructive shrink-0" />
+        <p className="text-sm text-muted-foreground flex-1">{error}</p>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setRetryCount((c) => c + 1)}
+        >
+          <RefreshCw className="h-3.5 w-3.5" data-icon="inline-start" />
+          Retry
+        </Button>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (

@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Sparkles, Lightbulb, Loader2 } from "lucide-react";
+import { Sparkles, Lightbulb, Loader2, AlertCircle, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { useWatchlist } from "@/hooks/use-watchlist";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PriorityFilters } from "@/components/intelligence/priority-filters";
 import { InsightCard } from "@/components/intelligence/insight-card";
@@ -15,6 +16,7 @@ export default function IntelligencePage() {
   const [generatedAt, setGeneratedAt] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   /* Fetch existing insights */
@@ -22,6 +24,7 @@ export default function IntelligencePage() {
     if (!watchlistHash) return;
 
     setIsLoading(true);
+    setError(null);
     try {
       const res = await fetch(
         `/api/insights?watchlist_hash=${encodeURIComponent(watchlistHash)}`
@@ -38,6 +41,7 @@ export default function IntelligencePage() {
       }
     } catch (err) {
       console.error("Insights fetch error:", err);
+      setError("Failed to load insights.");
     } finally {
       setIsLoading(false);
     }
@@ -123,7 +127,16 @@ export default function IntelligencePage() {
       />
 
       {/* Content */}
-      {loading ? (
+      {error ? (
+        <div className="bg-card border border-destructive/30 rounded-lg p-10 text-center space-y-3">
+          <AlertCircle className="mx-auto h-8 w-8 text-destructive" />
+          <p className="text-sm text-muted-foreground">{error}</p>
+          <Button variant="outline" size="sm" onClick={() => fetchInsights()}>
+            <RefreshCw className="h-3.5 w-3.5" data-icon="inline-start" />
+            Retry
+          </Button>
+        </div>
+      ) : loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <Skeleton key={i} className="h-[220px] w-full rounded-lg" />

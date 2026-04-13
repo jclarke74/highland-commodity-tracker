@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Search } from "lucide-react";
+import { Search, AlertCircle, RefreshCw } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { NewsTabs } from "@/components/news/news-tabs";
 import { CommodityFilters } from "@/components/news/commodity-filters";
@@ -28,6 +29,7 @@ export default function NewsPage() {
   const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchArticles = useCallback(
     async (pageNum: number, append: boolean) => {
@@ -37,6 +39,7 @@ export default function NewsPage() {
         setIsLoadingMore(true);
       }
 
+      setError(null);
       try {
         const params = new URLSearchParams();
         params.set("page", String(pageNum));
@@ -62,6 +65,9 @@ export default function NewsPage() {
         setHasMore(json.hasMore ?? false);
       } catch (err) {
         console.error("News fetch error:", err);
+        if (pageNum === 1) {
+          setError("Failed to load news articles.");
+        }
       } finally {
         setIsLoading(false);
         setIsLoadingMore(false);
@@ -119,7 +125,20 @@ export default function NewsPage() {
       />
 
       {/* Articles feed */}
-      {isLoading ? (
+      {error ? (
+        <div className="bg-card border border-destructive/30 rounded-lg p-10 text-center space-y-3">
+          <AlertCircle className="mx-auto h-8 w-8 text-destructive" />
+          <p className="text-sm text-muted-foreground">{error}</p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => fetchArticles(1, false)}
+          >
+            <RefreshCw className="h-3.5 w-3.5" data-icon="inline-start" />
+            Retry
+          </Button>
+        </div>
+      ) : isLoading ? (
         <div className="space-y-4">
           {Array.from({ length: 5 }).map((_, i) => (
             <Skeleton key={i} className="h-[130px] w-full rounded-lg" />

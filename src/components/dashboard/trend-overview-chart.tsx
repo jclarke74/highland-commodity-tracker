@@ -11,6 +11,8 @@ import {
   CartesianGrid,
 } from "recharts";
 import { format } from "date-fns";
+import { AlertCircle, RefreshCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { DateRange } from "@/types";
 
@@ -68,6 +70,8 @@ export function TrendOverviewChart({
   const [range, setRange] = useState<DateRange>(initialRange);
   const [data, setData] = useState<CommodityPriceData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     if (commodityIds.length === 0) {
@@ -79,6 +83,7 @@ export function TrendOverviewChart({
 
     async function fetchPrices() {
       setIsLoading(true);
+      setError(null);
       try {
         const params = new URLSearchParams({
           commodities: commodityIds.join(","),
@@ -90,6 +95,7 @@ export function TrendOverviewChart({
         if (!cancelled) setData(json);
       } catch (err) {
         console.error("Trend chart fetch error:", err);
+        if (!cancelled) setError("Failed to load chart data.");
       } finally {
         if (!cancelled) setIsLoading(false);
       }
@@ -99,7 +105,7 @@ export function TrendOverviewChart({
     return () => {
       cancelled = true;
     };
-  }, [commodityIds, range]);
+  }, [commodityIds, range, retryCount]);
 
   const chartData = useMemo(() => buildChartData(data), [data]);
 
@@ -151,7 +157,20 @@ export function TrendOverviewChart({
         </div>
       </div>
 
-      {isLoading ? (
+      {error ? (
+        <div className="flex flex-col items-center gap-3 py-12">
+          <AlertCircle className="h-8 w-8 text-destructive" />
+          <p className="text-sm text-muted-foreground">{error}</p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setRetryCount((c) => c + 1)}
+          >
+            <RefreshCw className="h-3.5 w-3.5" data-icon="inline-start" />
+            Retry
+          </Button>
+        </div>
+      ) : isLoading ? (
         <div className="space-y-3">
           <Skeleton className="h-[300px] w-full" />
         </div>

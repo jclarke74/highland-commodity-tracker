@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { AlertCircle, RefreshCw } from "lucide-react";
 import { useWatchlist } from "@/hooks/use-watchlist";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChartCard } from "@/components/trends/chart-card";
 import { ExpandedChart } from "@/components/trends/expanded-chart";
@@ -35,6 +37,7 @@ export default function TrendsPage() {
   const [selectedRange, setSelectedRange] = useState<DateRange>("1m");
   const [priceData, setPriceData] = useState<CommodityPriceData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [expandedCommodity, setExpandedCommodity] =
     useState<CommodityPriceData | null>(null);
 
@@ -46,6 +49,7 @@ export default function TrendsPage() {
     }
 
     setIsLoading(true);
+    setError(null);
     try {
       const params = new URLSearchParams({
         commodities: watchlist.join(","),
@@ -57,6 +61,7 @@ export default function TrendsPage() {
       setPriceData(json);
     } catch (err) {
       console.error("Trends fetch error:", err);
+      setError("Failed to load price data.");
     } finally {
       setIsLoading(false);
     }
@@ -92,7 +97,16 @@ export default function TrendsPage() {
       </div>
 
       {/* Content */}
-      {loading ? (
+      {error ? (
+        <div className="bg-card border border-destructive/30 rounded-lg p-10 text-center space-y-3">
+          <AlertCircle className="mx-auto h-8 w-8 text-destructive" />
+          <p className="text-sm text-muted-foreground">{error}</p>
+          <Button variant="outline" size="sm" onClick={() => fetchPrices()}>
+            <RefreshCw className="h-3.5 w-3.5" data-icon="inline-start" />
+            Retry
+          </Button>
+        </div>
+      ) : loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <Skeleton key={i} className="h-[170px] w-full rounded-lg" />
