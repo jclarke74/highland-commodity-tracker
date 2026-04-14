@@ -7,6 +7,7 @@ import {
   Newspaper,
   TrendingUp,
   Lightbulb,
+  FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +16,7 @@ const navItems = [
   { href: "/news", label: "News", icon: Newspaper },
   { href: "/trends", label: "Trends", icon: TrendingUp },
   { href: "/intelligence", label: "Intelligence", icon: Lightbulb },
+  { href: "/report", label: "Report", icon: FileText },
 ] as const;
 
 export function SidebarNav() {
