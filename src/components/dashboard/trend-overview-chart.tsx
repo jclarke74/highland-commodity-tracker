@@ -9,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   CartesianGrid,
+  ReferenceLine,
 } from "recharts";
 import { format } from "date-fns";
 import { AlertCircle, RefreshCw } from "lucide-react";
@@ -16,10 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { DateRange } from "@/types";
 
-const COLORS = ["#3b82f6", "#8b5cf6", "#22c55e", "#f59e0b", "#06b6d4"];
-
-const PRICE_MIN = 1;
-const PRICE_MAX = 5000;
+const COLORS = ["#3b82f6", "#8b5cf6", "#22c55e", "#f59e0b", "#06b6d4", "#ec4899", "#f97316", "#14b8a6"];
 
 interface PriceEntry {
   price: number;
@@ -44,25 +42,28 @@ interface ChartDataPoint {
   [key: string]: string | number;
 }
 
-interface OutlierCommodity {
-  name: string;
-  latestPrice: number;
-}
-
 /**
- * Determines if a commodity's prices fall within the chartable range ($1–$5,000).
- * Uses the latest price as the reference.
+ * Normalizes all commodities to % change from the start of the period.
+ * This allows Gold ($3,600), Copper ($4), and Crude Oil ($60) to be
+ * compared on the same chart.
  */
-function isChartable(commodity: CommodityPriceData): boolean {
-  if (commodity.prices.length === 0) return false;
-  const latest = commodity.prices[commodity.prices.length - 1].price;
-  return latest >= PRICE_MIN && latest <= PRICE_MAX;
-}
+function buildNormalizedChartData(
+  data: CommodityPriceData[]
+): { chartData: ChartDataPoint[]; baselinePrices: Record<string, number> } {
+  // Get baseline (first available price) for each commodity
+  const baselinePrices: Record<string, number> = {};
+  for (const commodity of data) {
+    if (commodity.prices.length > 0) {
+      baselinePrices[commodity.name] = commodity.prices[0].price;
+    }
+  }
 
-function buildChartData(data: CommodityPriceData[]): ChartDataPoint[] {
   const dateMap = new Map<string, ChartDataPoint>();
 
   for (const commodity of data) {
+    const baseline = baselinePrices[commodity.name];
+    if (!baseline || baseline === 0) continue;
+
     for (const entry of commodity.prices) {
       const dateKey = entry.date;
       if (!dateMap.has(dateKey)) {
@@ -72,13 +73,17 @@ function buildChartData(data: CommodityPriceData[]): ChartDataPoint[] {
         });
       }
       const point = dateMap.get(dateKey)!;
-      point[commodity.name] = entry.price;
+      // Store as % change from baseline
+      point[commodity.name] =
+        Math.round(((entry.price - baseline) / baseline) * 10000) / 100;
     }
   }
 
-  return Array.from(dateMap.values()).sort(
+  const chartData = Array.from(dateMap.values()).sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
+
+  return { chartData, baselinePrices };
 }
 
 export function TrendOverviewChart({
@@ -125,28 +130,20 @@ export function TrendOverviewChart({
     };
   }, [commodityIds, range, retryCount]);
 
-  // Split into chartable ($1–$5K) and outlier commodities
-  const { chartable, outliers } = useMemo(() => {
-    const chartable: CommodityPriceData[] = [];
-    const outliers: OutlierCommodity[] = [];
-    for (const d of data) {
-      if (isChartable(d)) {
-        chartable.push(d);
-      } else if (d.prices.length > 0) {
-        outliers.push({
-          name: d.name,
-          latestPrice: d.prices[d.prices.length - 1].price,
-        });
-      }
-    }
-    return { chartable, outliers };
-  }, [data]);
+  // Only include commodities that have price data
+  const validData = useMemo(
+    () => data.filter((d) => d.prices.length > 0),
+    [data]
+  );
 
-  const chartData = useMemo(() => buildChartData(chartable), [chartable]);
+  const { chartData, baselinePrices } = useMemo(
+    () => buildNormalizedChartData(validData),
+    [validData]
+  );
 
   const commodityNames = useMemo(
-    () => chartable.map((d) => d.name),
-    [chartable]
+    () => validData.map((d) => d.name),
+    [validData]
   );
 
   const ranges: { label: string; value: DateRange }[] = [
@@ -172,9 +169,14 @@ export function TrendOverviewChart({
   return (
     <div className="bg-card border border-border rounded-lg p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-base font-semibold text-foreground">
-          Price Trends
-        </h2>
+        <div>
+          <h2 className="text-base font-semibold text-foreground">
+            Price Trends
+          </h2>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            % change from start of period
+          </p>
+        </div>
         <div className="flex gap-1">
           {ranges.map((r) => (
             <button
@@ -230,7 +232,7 @@ export function TrendOverviewChart({
                     <stop
                       offset="0%"
                       stopColor={COLORS[i % COLORS.length]}
-                      stopOpacity={0.3}
+                      stopOpacity={0.2}
                     />
                     <stop
                       offset="100%"
@@ -255,9 +257,11 @@ export function TrendOverviewChart({
                 tick={{ fontSize: 11, fill: "#94a3b8" }}
                 tickLine={false}
                 axisLine={false}
-                width={60}
-                tickFormatter={(v: number) => `$${v.toLocaleString()}`}
+                width={50}
+                tickFormatter={(v: number) => `${v > 0 ? "+" : ""}${v}%`}
               />
+              {/* Zero baseline reference line */}
+              <ReferenceLine y={0} stroke="#334155" strokeDasharray="3 3" />
               <Tooltip
                 contentStyle={{
                   backgroundColor: "#111118",
@@ -267,18 +271,17 @@ export function TrendOverviewChart({
                   color: "#e2e8f0",
                 }}
                 labelStyle={{ color: "#94a3b8", marginBottom: "4px" }}
-                formatter={(
-                  value: number | string | ReadonlyArray<number | string> | undefined,
-                ) => {
-                  if (value == null) return ["$0.00"];
-                  const num = typeof value === "number" ? value : Number(value);
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                formatter={((value: any, name: any) => {
+                  const pct = typeof value === "number" ? value : Number(value);
+                  if (isNaN(pct)) return ["0%", name];
+                  const baseline = baselinePrices[String(name)] ?? 0;
+                  const currentPrice = baseline * (1 + pct / 100);
                   return [
-                    `$${num.toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}`,
+                    `${pct > 0 ? "+" : ""}${pct.toFixed(1)}% ($${currentPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })})`,
+                    name,
                   ];
-                }}
+                }) as never}
               />
               {commodityNames.map((name, i) => (
                 <Area
@@ -300,34 +303,29 @@ export function TrendOverviewChart({
             </AreaChart>
           </ResponsiveContainer>
 
-          {/* Legend */}
-          <div className="flex flex-wrap gap-4 mt-4">
-            {commodityNames.map((name, i) => (
-              <div key={name} className="flex items-center gap-2">
-                <span
-                  className="size-2.5 rounded-full"
-                  style={{ backgroundColor: COLORS[i % COLORS.length] }}
-                />
-                <span className="text-xs text-muted-foreground">{name}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Outlier commodities — outside $1–$5K chart range */}
-          {outliers.length > 0 && (
-            <p className="text-xs text-muted-foreground mt-3">
-              Not shown on chart:{" "}
-              {outliers.map((o, i) => (
-                <span key={o.name}>
-                  {o.name}{" "}
-                  <span className="text-foreground">
-                    (${o.latestPrice.toLocaleString("en-US", { maximumFractionDigits: 0 })})
+          {/* Legend with current prices */}
+          <div className="flex flex-wrap gap-x-5 gap-y-2 mt-4">
+            {commodityNames.map((name, i) => {
+              const commodity = validData.find((d) => d.name === name);
+              const latest = commodity?.prices[commodity.prices.length - 1];
+              return (
+                <div key={name} className="flex items-center gap-2">
+                  <span
+                    className="size-2.5 rounded-full"
+                    style={{ backgroundColor: COLORS[i % COLORS.length] }}
+                  />
+                  <span className="text-xs text-muted-foreground">
+                    {name}
+                    {latest && (
+                      <span className="text-foreground ml-1">
+                        ${latest.price.toLocaleString("en-US", { maximumFractionDigits: 2 })}
+                      </span>
+                    )}
                   </span>
-                  {i < outliers.length - 1 ? ", " : ""}
-                </span>
-              ))}
-            </p>
-          )}
+                </div>
+              );
+            })}
+          </div>
         </>
       )}
     </div>
