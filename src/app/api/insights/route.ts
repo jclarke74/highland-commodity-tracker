@@ -2,15 +2,31 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { insights } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
+import { computeWatchlistHash } from "@/lib/utils/watchlist-hash";
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const watchlistHash = searchParams.get("watchlist_hash");
 
-    if (!watchlistHash) {
+    // Accept either watchlist IDs (preferred) or a precomputed hash
+    const watchlistParam = searchParams.get("watchlist");
+    const hashParam = searchParams.get("watchlist_hash");
+
+    let watchlistHash: string;
+    if (watchlistParam) {
+      const ids = watchlistParam.split(",").map(Number).filter(Boolean);
+      if (ids.length === 0) {
+        return NextResponse.json(
+          { error: "Invalid watchlist parameter" },
+          { status: 400 }
+        );
+      }
+      watchlistHash = computeWatchlistHash(ids);
+    } else if (hashParam) {
+      watchlistHash = hashParam;
+    } else {
       return NextResponse.json(
-        { error: "Missing required parameter: watchlist_hash" },
+        { error: "Missing required parameter: watchlist or watchlist_hash" },
         { status: 400 }
       );
     }

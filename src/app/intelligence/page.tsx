@@ -21,13 +21,13 @@ export default function IntelligencePage() {
 
   /* Fetch existing insights */
   const fetchInsights = useCallback(async () => {
-    if (!watchlistHash) return;
+    if (watchlist.length === 0) return;
 
     setIsLoading(true);
     setError(null);
     try {
       const res = await fetch(
-        `/api/insights?watchlist_hash=${encodeURIComponent(watchlistHash)}`
+        `/api/insights?watchlist=${watchlist.join(",")}`
       );
       if (!res.ok) throw new Error("Failed to fetch insights");
       const data = await res.json();
@@ -45,7 +45,7 @@ export default function IntelligencePage() {
     } finally {
       setIsLoading(false);
     }
-  }, [watchlistHash]);
+  }, [watchlist]);
 
   useEffect(() => {
     if (watchlistLoading) return;

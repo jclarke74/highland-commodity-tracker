@@ -91,7 +91,7 @@ export default function DashboardPage() {
       setInsightLoading(true);
       try {
         const res = await fetch(
-          `/api/insights?watchlist_hash=${encodeURIComponent(watchlistHash)}`
+          `/api/insights?watchlist=${watchlist.join(",")}`
         );
         if (!res.ok) throw new Error("Failed to fetch insights");
         const json = await res.json();
@@ -120,7 +120,7 @@ export default function DashboardPage() {
     return () => {
       cancelled = true;
     };
-  }, [watchlist, watchlistHash, watchlistLoading]);
+  }, [watchlist, watchlistLoading]);
 
   // Filter commodities to watchlist items
   const watchlistCommodities = commodities.filter((c) =>
