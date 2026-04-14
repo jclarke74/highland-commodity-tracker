@@ -22,7 +22,7 @@ export const commodities = pgTable(
     unit: varchar("unit", { length: 50 }).notNull().default(""),
     sourceKey: varchar("source_key", { length: 255 }).notNull(),
   },
-  (table) => [uniqueIndex("commodities_slug_idx").on(table.slug)]
+  (table) => [uniqueIndex("commodities_source_key_idx").on(table.sourceKey)]
 );
 
 export const priceSnapshots = pgTable(
