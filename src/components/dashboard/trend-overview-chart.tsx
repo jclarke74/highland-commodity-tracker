@@ -18,6 +18,9 @@ import type { DateRange } from "@/types";
 
 const COLORS = ["#3b82f6", "#8b5cf6", "#22c55e", "#f59e0b", "#06b6d4"];
 
+const PRICE_MIN = 1;
+const PRICE_MAX = 5000;
+
 interface PriceEntry {
   price: number;
   date: string;
@@ -39,6 +42,21 @@ interface ChartDataPoint {
   date: string;
   dateLabel: string;
   [key: string]: string | number;
+}
+
+interface OutlierCommodity {
+  name: string;
+  latestPrice: number;
+}
+
+/**
+ * Determines if a commodity's prices fall within the chartable range ($1–$5,000).
+ * Uses the latest price as the reference.
+ */
+function isChartable(commodity: CommodityPriceData): boolean {
+  if (commodity.prices.length === 0) return false;
+  const latest = commodity.prices[commodity.prices.length - 1].price;
+  return latest >= PRICE_MIN && latest <= PRICE_MAX;
 }
 
 function buildChartData(data: CommodityPriceData[]): ChartDataPoint[] {
@@ -107,11 +125,28 @@ export function TrendOverviewChart({
     };
   }, [commodityIds, range, retryCount]);
 
-  const chartData = useMemo(() => buildChartData(data), [data]);
+  // Split into chartable ($1–$5K) and outlier commodities
+  const { chartable, outliers } = useMemo(() => {
+    const chartable: CommodityPriceData[] = [];
+    const outliers: OutlierCommodity[] = [];
+    for (const d of data) {
+      if (isChartable(d)) {
+        chartable.push(d);
+      } else if (d.prices.length > 0) {
+        outliers.push({
+          name: d.name,
+          latestPrice: d.prices[d.prices.length - 1].price,
+        });
+      }
+    }
+    return { chartable, outliers };
+  }, [data]);
+
+  const chartData = useMemo(() => buildChartData(chartable), [chartable]);
 
   const commodityNames = useMemo(
-    () => data.map((d) => d.name),
-    [data]
+    () => chartable.map((d) => d.name),
+    [chartable]
   );
 
   const ranges: { label: string; value: DateRange }[] = [
@@ -277,6 +312,22 @@ export function TrendOverviewChart({
               </div>
             ))}
           </div>
+
+          {/* Outlier commodities — outside $1–$5K chart range */}
+          {outliers.length > 0 && (
+            <p className="text-xs text-muted-foreground mt-3">
+              Not shown on chart:{" "}
+              {outliers.map((o, i) => (
+                <span key={o.name}>
+                  {o.name}{" "}
+                  <span className="text-foreground">
+                    (${o.latestPrice.toLocaleString("en-US", { maximumFractionDigits: 0 })})
+                  </span>
+                  {i < outliers.length - 1 ? ", " : ""}
+                </span>
+              ))}
+            </p>
+          )}
         </>
       )}
     </div>
