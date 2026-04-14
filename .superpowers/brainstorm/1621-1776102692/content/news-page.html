@@ -1,0 +1,185 @@
+<h2>News Page Layout</h2>
+<p class="subtitle">How should commodity and construction news be presented?</p>
+
+<div class="cards">
+  <!-- Option A: Two-Column Split -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background: #0a0a0f; border-radius: 8px; overflow: hidden; height: 380px; font-family: system-ui, sans-serif; padding: 16px;">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div style="color: #e2e8f0; font-size: 14px; font-weight: 600;">News</div>
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <div style="width: 160px; height: 28px; background: #111118; border: 1px solid #1e1e2e; border-radius: 6px; padding: 0 8px; display: flex; align-items: center;">
+              <span style="color: #475569; font-size: 9px;">🔍 Search news...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Two Columns -->
+        <div style="display: flex; gap: 12px; height: 310px;">
+          <!-- Left: Commodity News -->
+          <div style="flex: 1; display: flex; flex-direction: column;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 10px;">
+              <div style="width: 3px; height: 14px; background: #3b82f6; border-radius: 2px;"></div>
+              <span style="color: #94a3b8; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Commodity News</span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px; flex: 1;">
+              <div style="background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 12px;">
+                <div style="display: flex; gap: 6px; margin-bottom: 4px;">
+                  <div style="padding: 1px 6px; background: rgba(59,130,246,0.15); color: #3b82f6; font-size: 7px; font-weight: 600; border-radius: 3px;">LUMBER</div>
+                </div>
+                <div style="color: #e2e8f0; font-size: 11px; font-weight: 600; line-height: 1.3; margin-bottom: 4px;">US Lumber Futures Rally as Housing Demand Surges</div>
+                <div style="color: #94a3b8; font-size: 9px; line-height: 1.4; margin-bottom: 6px;">Lumber prices hit 3-month high as spring construction season kicks off with stronger-than-expected demand...</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #64748b; font-size: 8px;">Reuters · 2h ago</span>
+                  <span style="color: #3b82f6; font-size: 8px;">Read →</span>
+                </div>
+              </div>
+
+              <div style="background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 12px;">
+                <div style="display: flex; gap: 6px; margin-bottom: 4px;">
+                  <div style="padding: 1px 6px; background: rgba(139,92,246,0.15); color: #8b5cf6; font-size: 7px; font-weight: 600; border-radius: 3px;">STEEL</div>
+                </div>
+                <div style="color: #e2e8f0; font-size: 11px; font-weight: 600; line-height: 1.3; margin-bottom: 4px;">Steel Tariff Review Sends Mixed Signals to Markets</div>
+                <div style="color: #94a3b8; font-size: 9px; line-height: 1.4; margin-bottom: 6px;">Trade officials signal potential tariff adjustments as domestic steel producers report overcapacity...</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #64748b; font-size: 8px;">Bloomberg · 4h ago</span>
+                  <span style="color: #3b82f6; font-size: 8px;">Read →</span>
+                </div>
+              </div>
+
+              <div style="background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 12px;">
+                <div style="display: flex; gap: 6px; margin-bottom: 4px;">
+                  <div style="padding: 1px 6px; background: rgba(34,197,94,0.15); color: #22c55e; font-size: 7px; font-weight: 600; border-radius: 3px;">COPPER</div>
+                </div>
+                <div style="color: #e2e8f0; font-size: 11px; font-weight: 600; line-height: 1.3; margin-bottom: 4px;">Copper Demand Boosted by Infrastructure Spending</div>
+                <div style="color: #94a3b8; font-size: 9px; line-height: 1.4; margin-bottom: 6px;">Federal infrastructure investments driving steady copper demand growth in electrical and plumbing sectors...</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #64748b; font-size: 8px;">GNews · 6h ago</span>
+                  <span style="color: #3b82f6; font-size: 8px;">Read →</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Construction News -->
+          <div style="flex: 1; display: flex; flex-direction: column;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 10px;">
+              <div style="width: 3px; height: 14px; background: #f59e0b; border-radius: 2px;"></div>
+              <span style="color: #94a3b8; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Construction News</span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px; flex: 1;">
+              <div style="background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 12px;">
+                <div style="color: #e2e8f0; font-size: 11px; font-weight: 600; line-height: 1.3; margin-bottom: 4px;">March Housing Starts Jump 12% Year-Over-Year</div>
+                <div style="color: #94a3b8; font-size: 9px; line-height: 1.4; margin-bottom: 6px;">New residential construction activity surged in March driven by pent-up demand and easing mortgage rates...</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #64748b; font-size: 8px;">Construction Dive · 1h ago</span>
+                  <span style="color: #f59e0b; font-size: 8px;">Read →</span>
+                </div>
+              </div>
+
+              <div style="background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 12px;">
+                <div style="color: #e2e8f0; font-size: 11px; font-weight: 600; line-height: 1.3; margin-bottom: 4px;">Labor Shortage Continues to Plague Commercial Projects</div>
+                <div style="color: #94a3b8; font-size: 9px; line-height: 1.4; margin-bottom: 6px;">Industry leaders call for immigration reform and training programs as skilled labor gap widens...</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #64748b; font-size: 8px;">ENR · 3h ago</span>
+                  <span style="color: #f59e0b; font-size: 8px;">Read →</span>
+                </div>
+              </div>
+
+              <div style="background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 12px;">
+                <div style="color: #e2e8f0; font-size: 11px; font-weight: 600; line-height: 1.3; margin-bottom: 4px;">Green Building Standards Reshape Material Sourcing</div>
+                <div style="color: #94a3b8; font-size: 9px; line-height: 1.4; margin-bottom: 6px;">New sustainability requirements expected to shift demand toward recycled steel and certified lumber...</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #64748b; font-size: 8px;">Construction Dive · 8h ago</span>
+                  <span style="color: #f59e0b; font-size: 8px;">Read →</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Two-Column Split</h3>
+      <p>Commodity news on the left, construction news on the right. Always side-by-side. Commodity articles are tagged with relevant commodities (Lumber, Steel, etc.). Each column scrolls independently. Search bar filters across both. Clean separation of the two news streams.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Unified Feed with Tabs -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background: #0a0a0f; border-radius: 8px; overflow: hidden; height: 380px; font-family: system-ui, sans-serif; padding: 16px;">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div style="color: #e2e8f0; font-size: 14px; font-weight: 600;">News</div>
+          <div style="width: 160px; height: 28px; background: #111118; border: 1px solid #1e1e2e; border-radius: 6px; padding: 0 8px; display: flex; align-items: center;">
+            <span style="color: #475569; font-size: 9px;">🔍 Search news...</span>
+          </div>
+        </div>
+
+        <!-- Tab bar -->
+        <div style="display: flex; gap: 0; margin-bottom: 14px; border-bottom: 1px solid #1e1e2e;">
+          <div style="padding: 8px 16px; color: #e2e8f0; font-size: 10px; font-weight: 600; border-bottom: 2px solid #3b82f6;">All News</div>
+          <div style="padding: 8px 16px; color: #64748b; font-size: 10px;">Commodity</div>
+          <div style="padding: 8px 16px; color: #64748b; font-size: 10px;">Construction</div>
+        </div>
+
+        <!-- Filter chips -->
+        <div style="display: flex; gap: 6px; margin-bottom: 14px;">
+          <div style="padding: 3px 10px; background: #3b82f6; border-radius: 20px; color: white; font-size: 8px;">All</div>
+          <div style="padding: 3px 10px; background: #1e1e2e; border-radius: 20px; color: #64748b; font-size: 8px;">Lumber</div>
+          <div style="padding: 3px 10px; background: #1e1e2e; border-radius: 20px; color: #64748b; font-size: 8px;">Steel</div>
+          <div style="padding: 3px 10px; background: #1e1e2e; border-radius: 20px; color: #64748b; font-size: 8px;">Copper</div>
+          <div style="padding: 3px 10px; background: #1e1e2e; border-radius: 20px; color: #64748b; font-size: 8px;">Fuel</div>
+        </div>
+
+        <!-- Unified feed -->
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 12px; display: flex; gap: 12px; align-items: start;">
+            <div style="min-width: 4px; height: 40px; background: #f59e0b; border-radius: 2px;"></div>
+            <div style="flex: 1;">
+              <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 4px;">
+                <span style="padding: 1px 6px; background: rgba(245,158,11,0.15); color: #f59e0b; font-size: 7px; font-weight: 600; border-radius: 3px;">CONSTRUCTION</span>
+                <span style="color: #64748b; font-size: 8px;">Construction Dive · 1h ago</span>
+              </div>
+              <div style="color: #e2e8f0; font-size: 11px; font-weight: 600; line-height: 1.3; margin-bottom: 3px;">March Housing Starts Jump 12% Year-Over-Year</div>
+              <div style="color: #94a3b8; font-size: 9px; line-height: 1.4;">New residential construction activity surged in March driven by pent-up demand...</div>
+            </div>
+          </div>
+
+          <div style="background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 12px; display: flex; gap: 12px; align-items: start;">
+            <div style="min-width: 4px; height: 40px; background: #3b82f6; border-radius: 2px;"></div>
+            <div style="flex: 1;">
+              <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 4px;">
+                <span style="padding: 1px 6px; background: rgba(59,130,246,0.15); color: #3b82f6; font-size: 7px; font-weight: 600; border-radius: 3px;">LUMBER</span>
+                <span style="color: #64748b; font-size: 8px;">Reuters · 2h ago</span>
+              </div>
+              <div style="color: #e2e8f0; font-size: 11px; font-weight: 600; line-height: 1.3; margin-bottom: 3px;">US Lumber Futures Rally as Housing Demand Surges</div>
+              <div style="color: #94a3b8; font-size: 9px; line-height: 1.4;">Lumber prices hit 3-month high as spring construction season kicks off...</div>
+            </div>
+          </div>
+
+          <div style="background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 12px; display: flex; gap: 12px; align-items: start;">
+            <div style="min-width: 4px; height: 40px; background: #3b82f6; border-radius: 2px;"></div>
+            <div style="flex: 1;">
+              <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 4px;">
+                <span style="padding: 1px 6px; background: rgba(139,92,246,0.15); color: #8b5cf6; font-size: 7px; font-weight: 600; border-radius: 3px;">STEEL</span>
+                <span style="color: #64748b; font-size: 8px;">Bloomberg · 4h ago</span>
+              </div>
+              <div style="color: #e2e8f0; font-size: 11px; font-weight: 600; line-height: 1.3; margin-bottom: 3px;">Steel Tariff Review Sends Mixed Signals to Markets</div>
+              <div style="color: #94a3b8; font-size: 9px; line-height: 1.4;">Trade officials signal potential tariff adjustments as domestic steel producers...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Unified Feed with Tabs & Filters</h3>
+      <p>Single chronological feed mixing both news types, color-coded by category (blue = commodity, amber = construction). Tabs to switch between All / Commodity / Construction. Filter chips to narrow by specific commodity. Simpler, more like a modern news reader.</p>
+    </div>
+  </div>
+</div>

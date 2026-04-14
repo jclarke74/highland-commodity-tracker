@@ -1,0 +1,163 @@
+<h2>Trends Page — Price History View</h2>
+<p class="subtitle">How should users explore historical commodity price data?</p>
+
+<div class="cards">
+  <!-- Option A: Single Chart Focus -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background: #0a0a0f; border-radius: 8px; overflow: hidden; height: 370px; font-family: system-ui, sans-serif; padding: 16px;">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div style="color: #e2e8f0; font-size: 14px; font-weight: 600;">Price Trends</div>
+          <div style="display: flex; gap: 6px;">
+            <div style="padding: 4px 10px; background: #1e1e2e; border-radius: 4px; color: #64748b; font-size: 9px;">1W</div>
+            <div style="padding: 4px 10px; background: #3b82f6; border-radius: 4px; color: white; font-size: 9px;">1M</div>
+            <div style="padding: 4px 10px; background: #1e1e2e; border-radius: 4px; color: #64748b; font-size: 9px;">3M</div>
+            <div style="padding: 4px 10px; background: #1e1e2e; border-radius: 4px; color: #64748b; font-size: 9px;">6M</div>
+            <div style="padding: 4px 10px; background: #1e1e2e; border-radius: 4px; color: #64748b; font-size: 9px;">1Y</div>
+            <div style="padding: 4px 10px; background: #1e1e2e; border-radius: 4px; color: #64748b; font-size: 9px;">ALL</div>
+          </div>
+        </div>
+
+        <!-- Commodity selector pills -->
+        <div style="display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap;">
+          <div style="padding: 4px 12px; background: rgba(59,130,246,0.2); border: 1px solid #3b82f6; border-radius: 20px; color: #3b82f6; font-size: 9px; font-weight: 500;">● Lumber</div>
+          <div style="padding: 4px 12px; background: rgba(139,92,246,0.2); border: 1px solid #8b5cf6; border-radius: 20px; color: #8b5cf6; font-size: 9px; font-weight: 500;">● Steel HRC</div>
+          <div style="padding: 4px 12px; background: #1e1e2e; border-radius: 20px; color: #64748b; font-size: 9px;">Copper</div>
+          <div style="padding: 4px 12px; background: #1e1e2e; border-radius: 20px; color: #64748b; font-size: 9px;">Diesel</div>
+        </div>
+
+        <!-- Large Chart Area -->
+        <div style="background: #111118; border-radius: 10px; border: 1px solid #1e1e2e; padding: 16px; height: 200px; position: relative;">
+          <!-- Y axis labels -->
+          <div style="position: absolute; left: 8px; top: 16px; color: #475569; font-size: 7px;">$520</div>
+          <div style="position: absolute; left: 8px; top: 56px; color: #475569; font-size: 7px;">$500</div>
+          <div style="position: absolute; left: 8px; top: 96px; color: #475569; font-size: 7px;">$480</div>
+          <div style="position: absolute; left: 8px; top: 136px; color: #475569; font-size: 7px;">$460</div>
+          <div style="position: absolute; left: 8px; top: 170px; color: #475569; font-size: 7px;">$440</div>
+          <!-- Grid lines -->
+          <svg width="100%" height="170" viewBox="0 0 440 170" preserveAspectRatio="none" style="margin-left: 30px; width: calc(100% - 30px);">
+            <line x1="0" y1="0" x2="440" y2="0" stroke="#1e1e2e" stroke-width="1"/>
+            <line x1="0" y1="42" x2="440" y2="42" stroke="#1e1e2e" stroke-width="1"/>
+            <line x1="0" y1="85" x2="440" y2="85" stroke="#1e1e2e" stroke-width="1"/>
+            <line x1="0" y1="127" x2="440" y2="127" stroke="#1e1e2e" stroke-width="1"/>
+            <line x1="0" y1="170" x2="440" y2="170" stroke="#1e1e2e" stroke-width="1"/>
+            <!-- Lumber line -->
+            <polyline points="0,150 40,145 80,135 120,130 160,120 200,105 240,95 280,80 320,70 360,55 400,45 440,40" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+            <!-- Area fill -->
+            <polyline points="0,150 40,145 80,135 120,130 160,120 200,105 240,95 280,80 320,70 360,55 400,45 440,40 440,170 0,170" fill="url(#blueGrad)" opacity="0.15"/>
+            <!-- Steel line -->
+            <polyline points="0,85 40,88 80,90 120,85 160,82 200,88 240,92 280,95 320,98 360,100 400,105 440,108" fill="none" stroke="#8b5cf6" stroke-width="2.5"/>
+            <!-- Hover point -->
+            <circle cx="320" cy="70" r="5" fill="#3b82f6" stroke="#0a0a0f" stroke-width="2"/>
+            <defs>
+              <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3b82f6"/>
+                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <!-- Tooltip -->
+          <div style="position: absolute; top: 45px; left: 260px; background: #1e293b; border: 1px solid #334155; border-radius: 6px; padding: 6px 10px;">
+            <div style="color: #e2e8f0; font-size: 9px; font-weight: 600;">Lumber · Mar 22</div>
+            <div style="color: #3b82f6; font-size: 11px; font-weight: 700;">$492.30</div>
+            <div style="color: #22c55e; font-size: 8px;">▲ 4.7% from start</div>
+          </div>
+        </div>
+
+        <!-- X axis -->
+        <div style="display: flex; justify-content: space-between; padding: 6px 46px 0 46px;">
+          <span style="color: #475569; font-size: 7px;">Mar 13</span>
+          <span style="color: #475569; font-size: 7px;">Mar 20</span>
+          <span style="color: #475569; font-size: 7px;">Mar 27</span>
+          <span style="color: #475569; font-size: 7px;">Apr 3</span>
+          <span style="color: #475569; font-size: 7px;">Apr 10</span>
+          <span style="color: #475569; font-size: 7px;">Apr 13</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Single Large Chart</h3>
+      <p>One dominant chart with toggle pills to overlay multiple commodities. Time range selector. Interactive hover tooltips. Clean and focused — all attention on the data. Users select which commodities to compare from their watchlist.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Multi-Chart Grid -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background: #0a0a0f; border-radius: 8px; overflow: hidden; height: 370px; font-family: system-ui, sans-serif; padding: 16px;">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div style="color: #e2e8f0; font-size: 14px; font-weight: 600;">Price Trends</div>
+          <div style="display: flex; gap: 6px;">
+            <div style="padding: 4px 10px; background: #3b82f6; border-radius: 4px; color: white; font-size: 9px;">1M</div>
+            <div style="padding: 4px 10px; background: #1e1e2e; border-radius: 4px; color: #64748b; font-size: 9px;">3M</div>
+            <div style="padding: 4px 10px; background: #1e1e2e; border-radius: 4px; color: #64748b; font-size: 9px;">1Y</div>
+          </div>
+        </div>
+
+        <!-- 2x2 Chart Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <!-- Lumber -->
+          <div style="background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="color: #e2e8f0; font-size: 10px; font-weight: 600;">Lumber</span>
+              <span style="color: #22c55e; font-size: 9px; font-weight: 600;">▲ 8.2%</span>
+            </div>
+            <div style="color: #e2e8f0; font-size: 14px; font-weight: 700; margin-bottom: 6px;">$485.50</div>
+            <svg width="100%" height="50" viewBox="0 0 200 50" preserveAspectRatio="none">
+              <polyline points="0,45 25,42 50,38 75,35 100,30 125,25 150,20 175,16 200,12" fill="none" stroke="#22c55e" stroke-width="2"/>
+              <polyline points="0,45 25,42 50,38 75,35 100,30 125,25 150,20 175,16 200,12 200,50 0,50" fill="#22c55e" opacity="0.08"/>
+            </svg>
+          </div>
+
+          <!-- Steel -->
+          <div style="background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="color: #e2e8f0; font-size: 10px; font-weight: 600;">Steel HRC</span>
+              <span style="color: #ef4444; font-size: 9px; font-weight: 600;">▼ 1.1%</span>
+            </div>
+            <div style="color: #e2e8f0; font-size: 14px; font-weight: 700; margin-bottom: 6px;">$1,842</div>
+            <svg width="100%" height="50" viewBox="0 0 200 50" preserveAspectRatio="none">
+              <polyline points="0,20 25,22 50,25 75,20 100,18 125,25 150,28 175,32 200,35" fill="none" stroke="#ef4444" stroke-width="2"/>
+              <polyline points="0,20 25,22 50,25 75,20 100,18 125,25 150,28 175,32 200,35 200,50 0,50" fill="#ef4444" opacity="0.08"/>
+            </svg>
+          </div>
+
+          <!-- Copper -->
+          <div style="background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="color: #e2e8f0; font-size: 10px; font-weight: 600;">Copper</span>
+              <span style="color: #22c55e; font-size: 9px; font-weight: 600;">▲ 0.8%</span>
+            </div>
+            <div style="color: #e2e8f0; font-size: 14px; font-weight: 700; margin-bottom: 6px;">$4.12</div>
+            <svg width="100%" height="50" viewBox="0 0 200 50" preserveAspectRatio="none">
+              <polyline points="0,40 25,38 50,36 75,38 100,34 125,32 150,30 175,28 200,26" fill="none" stroke="#22c55e" stroke-width="2"/>
+              <polyline points="0,40 25,38 50,36 75,38 100,34 125,32 150,30 175,28 200,26 200,50 0,50" fill="#22c55e" opacity="0.08"/>
+            </svg>
+          </div>
+
+          <!-- Diesel -->
+          <div style="background: #111118; border-radius: 8px; border: 1px solid #1e1e2e; padding: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="color: #e2e8f0; font-size: 10px; font-weight: 600;">Diesel</span>
+              <span style="color: #22c55e; font-size: 9px; font-weight: 600;">▲ 3.1%</span>
+            </div>
+            <div style="color: #e2e8f0; font-size: 14px; font-weight: 700; margin-bottom: 6px;">$3.89</div>
+            <svg width="100%" height="50" viewBox="0 0 200 50" preserveAspectRatio="none">
+              <polyline points="0,42 25,40 50,38 75,36 100,32 125,28 150,25 175,22 200,18" fill="none" stroke="#22c55e" stroke-width="2"/>
+              <polyline points="0,42 25,40 50,38 75,36 100,32 125,28 150,25 175,22 200,18 200,50 0,50" fill="#22c55e" opacity="0.08"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Click hint -->
+        <div style="text-align: center; margin-top: 10px; color: #475569; font-size: 8px;">Click any chart to expand to full view</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Multi-Chart Grid</h3>
+      <p>Each watchlist commodity gets its own mini chart in a 2x2 grid. See all trends at once — each card shows price, % change, and sparkline. Click any chart to expand it into a full detailed view. Good for comparing overall direction across commodities.</p>
+    </div>
+  </div>
+</div>
