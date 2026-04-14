@@ -47,6 +47,7 @@ export async function GET() {
               monthlyPct: latestSnapshot.monthlyPct,
               ytdPct: latestSnapshot.ytdPct,
               date: latestSnapshot.date,
+              scrapedAt: latestSnapshot.scrapedAt,
             }
           : null,
       };

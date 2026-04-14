@@ -28,6 +28,7 @@ interface CommodityEntry {
     monthlyPct: number;
     ytdPct: number;
     date: string;
+    scrapedAt: string;
   } | null;
 }
 
@@ -129,10 +130,10 @@ export default function DashboardPage() {
 
   const today = format(new Date(), "EEEE, MMMM d, yyyy");
 
-  // Data freshness: find the most recent price date across all watchlist commodities
-  const latestPriceDate = watchlistCommodities.reduce<string | null>(
+  // Data freshness: find the most recent scrapedAt timestamp across watchlist commodities
+  const latestScrapedAt = watchlistCommodities.reduce<string | null>(
     (latest, c) => {
-      const d = c.latestPrice?.date;
+      const d = c.latestPrice?.scrapedAt;
       if (!d) return latest;
       if (!latest) return d;
       return d > latest ? d : latest;
@@ -147,10 +148,10 @@ export default function DashboardPage() {
         <div>
           <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
           <p className="text-sm text-muted-foreground mt-1">{today}</p>
-          {latestPriceDate && (
+          {latestScrapedAt && (
             <p className="text-xs text-muted-foreground mt-0.5">
               Last updated:{" "}
-              {formatDistanceToNow(new Date(latestPriceDate), {
+              {formatDistanceToNow(new Date(latestScrapedAt), {
                 addSuffix: true,
               })}
             </p>
